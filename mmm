@@ -1,0 +1,68 @@
+# ----------------------------------------------------
+# Define the data vector
+# ----------------------------------------------------
+marks <- c(97, 78, 57, 64, 87, 78, 57, 64, 87, 78) # Added more values to ensure 78 is the mode
+
+# ----------------------------------------------------
+# Calculate Mean in R
+# ----------------------------------------------------
+print("--- Mean Calculation ---")
+result_mean <- mean(marks)
+print(paste("Mean of marks:", result_mean))
+
+# ----------------------------------------------------
+# Calculate Median in R
+# ----------------------------------------------------
+print("--- Median Calculation ---")
+result_median <- median(marks)
+print(paste("Median of marks:", result_median))
+
+# ----------------------------------------------------
+# Calculate Mode in R (User-defined function)
+# ----------------------------------------------------
+mode_function <- function(x) {
+    # table(x) creates a frequency table
+    # sort(-table(x)) sorts the frequency table in descending order
+    # names(...) extracts the values (the marks)
+    # [[1]] returns the first element, which is the most frequent value (the mode)
+    return(names(sort(-table(x)))[1])
+}
+print("--- Mode Calculation ---")
+result_mode <- mode_function(marks)
+# Note: The result is a character string because names() returns strings.
+print(paste("Mode of marks:", result_mode))
+
+# ----------------------------------------------------
+# FINDING MEAN, MEDIAN, AND MODE USING A CSV FILE
+# (Assumes 'CardioGoodFitness1.csv' is in your working directory)
+# ----------------------------------------------------
+print("--- Calculations on CSV Data ---")
+
+# Replace "CardioGoodFitness1.csv" with the actual path if needed
+file_path <- "CardioGoodFitness1.csv"
+
+# Check if the file exists before attempting to read
+if (file.exists(file_path)) {
+    # Read the data (Use stringsAsFactors = FALSE for modern R versions)
+    myData <- read.csv(file_path, stringsAsFactors = FALSE)
+    print("Successfully loaded CSV data.")
+    
+    # Assuming 'Age' is a column in the CSV data as per the image
+    myDataAge <- myData$Age
+    
+    # Median from CSV
+    result_csv_median <- median(myDataAge)
+    print(paste("Median of Age from CSV:", result_csv_median))
+    
+    # Mean from CSV
+    result_csv_mean <- mean(myDataAge)
+    print(paste("Mean of Age from CSV:", result_csv_mean))
+    
+    # Mode from CSV
+    result_csv_mode <- mode_function(myDataAge)
+    print(paste("Mode of Age from CSV:", result_csv_mode))
+
+} else {
+    print(paste("Error: File not found at path:", file_path))
+    print("Please ensure 'CardioGoodFitness1.csv' is in your working directory.")
+}
