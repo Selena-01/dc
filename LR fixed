@@ -1,0 +1,42 @@
+import pandas as pd # <-- Added this import
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load dataset from seaborn
+df = sns.load_dataset('mpg')
+
+# --- FIX: Ensure 'horsepower' is numeric and handle missing/bad values ---
+# Convert 'horsepower' to numeric, forcing non-numeric strings ('?') to NaN
+df['horsepower'] = pd.to_numeric(df['horsepower'], errors='coerce') 
+
+# Drop rows with missing values (NaNs from original data or from the conversion above)
+df = df.dropna()
+# --------------------------------------------------------------------------
+
+# Features and target
+# X must be a 2D structure (DataFrame), so we use double brackets [['...']]
+X = df[['horsepower']]  # predictor
+y = df['mpg']           # target
+
+# Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Plot results
+plt.figure(figsize=(8, 6))
+plt.scatter(X_test, y_test, color='blue', alpha=0.6, label='Actual MPG')
+plt.plot(X_test, y_pred, color='red', linewidth=2, label='Predicted MPG (Regression Line)')
+plt.xlabel('Horsepower')
+plt.ylabel('Miles per Gallon (MPG)')
+plt.title('Linear Regression: Horsepower vs MPG')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
