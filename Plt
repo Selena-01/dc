@@ -1,0 +1,110 @@
+# Load the built-in airquality dataset
+data(airquality)
+
+# ----------------------------------------------------
+# 1.1] Horizontal Bar Plot
+# ----------------------------------------------------
+# This plot will group ozone values into bins (implicitly, since barplot on a continuous variable)
+barplot(airquality$Ozone,
+        main = 'Ozone Concentration in air',
+        xlab = 'ozone levels',
+        horiz = TRUE, # Horizontal
+        col = 'blue')
+
+# ----------------------------------------------------
+# 1.2] Vertical Bar Plot
+# ----------------------------------------------------
+barplot(airquality$Ozone,
+        main = 'Ozone Concentration in air',
+        xlab = 'ozone levels',
+        horiz = FALSE, # Vertical
+        col = 'blue')
+
+# ----------------------------------------------------
+# 2] HISTOGRAM
+# ----------------------------------------------------
+hist(airquality$Temp,
+     main = 'La Guardia Airport\'s Maximum Temperature(Daily)',
+     xlab = 'Temperature(Fahrenheit)',
+     xlim = c(50, 125), # Sets the range for the x-axis
+     col = 'yellow',
+     freq = TRUE) # Y-axis shows Frequency
+
+# ----------------------------------------------------
+# 3] BOX PLOT (Single)
+# ----------------------------------------------------
+boxplot(airquality$Wind,
+        main = "Average wind speed at La Guardia Airport",
+        ylab = "Wind",
+        xlab = "Miles per hour",
+        col = "orange",
+        border = "brown",
+        horizontal = TRUE,
+        notch = TRUE) # Notches give a rough idea of the 95% confidence interval for the median
+
+# ----------------------------------------------------
+# Multiple Box Plots (For Air Quality Parameters)
+# ----------------------------------------------------
+boxplot(airquality[, 1:4], # Selects the first 4 columns (Ozone, Solar.R, Wind, Temp)
+        main = 'Box Plots for Air Quality Parameters')
+
+# ----------------------------------------------------
+# 4] SCATTER PLOT
+# ----------------------------------------------------
+plot(airquality$Ozone, airquality$Month,
+     main = 'Scatterplot Example',
+     xlab = 'Ozone concentration in parts per billion',
+     ylab = 'Month of observation',
+     pch = 19) # pch = 19 specifies solid circles for points
+
+# ----------------------------------------------------
+# 5] HEAT MAP
+# ----------------------------------------------------
+# Generate synthetic data for the heatmap (a 5x5 matrix of random normal numbers)
+data_matrix <- matrix(rnorm(25, 0, 5), nrow = 5, ncol = 5)
+colnames(data_matrix) <- paste0("Col", 1:5)
+rownames(data_matrix) <- paste0("Row", 1:5)
+heatmap(data_matrix)
+
+# ----------------------------------------------------
+# 6] MAP PLOT (Requires 'maps' package)
+# ----------------------------------------------------
+if(!requireNamespace("maps", quietly = TRUE)) {
+    install.packages('maps')
+}
+library(maps)
+# Draw the world map
+map("world")
+
+# Add points for data cities (Example coordinates from the image)
+cities <- data.frame(
+    City = c("New York", "Los Angeles", "Chicago", "Houston", "Phoenix"),
+    lat = c(40.7128, 34.0522, 41.8781, 29.7604, 33.4484),
+    lon = c(-74.0060, -118.2437, -87.6298, -95.3698, -112.0740)
+)
+points(cities$lon, cities$lat, col = "Red", pch = 16, cex = 1)
+
+
+# ----------------------------------------------------
+# 7] 3D GRAPHS IN R (Perspective Plot)
+# ----------------------------------------------------
+# Define the cone function (paraboloid-like shape for simplicity)
+cone <- function(x, y) {
+    sqrt(x^2 + y^2)
+}
+
+# Generate x and y data
+x <- y <- seq(-1, 1, length = 30)
+
+# Calculate z values using the cone function on the outer product of x and y
+z <- outer(x, y, cone)
+
+# Create the perspective plot
+persp(x, y, z,
+      main = "Perspective Plot of a Cone",
+      zlab = "Height",
+      theta = 30, # Angle controlling the viewing azimuth
+      phi = 15,   # Angle controlling the viewing elevation
+      col = "orange",
+      shade = 0.4) # Shade for lighting effects
+
