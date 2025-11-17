@@ -1,0 +1,61 @@
+# ----------------------------------------------------
+# DATES IN R: COERCE A 'DATE' OBJECT FROM A CHARACTER
+# ----------------------------------------------------
+x <- as.Date("19-01-01")
+print(x)
+
+# ----------------------------------------------------
+# TIMES IN R
+# ----------------------------------------------------
+x_time <- Sys.time()
+print(x_time)
+
+# ----------------------------------------------------
+# 1] GET CURRENT DATE AND TIME
+# ----------------------------------------------------
+print(date())
+print(Sys.Date())
+print(Sys.time())
+
+# ----------------------------------------------------
+# 2] GET CURRENT DATE USING R LUBRIDATE PACKAGE
+#    (Installs and loads the package if needed)
+# ----------------------------------------------------
+if(!requireNamespace("lubridate", quietly = TRUE)) {
+    install.packages('lubridate')
+}
+library(lubridate)
+print(now())
+
+# ----------------------------------------------------
+# 3] EXTRACTION YEARS, MONTHS, AND DAYS FROM MULTIPLE DATE VALUES IN R
+# ----------------------------------------------------
+dates <- c("2021-06-22", "2012-04-19", "2017-03-05")
+print(year(dates))
+print(month(dates))
+print(mday(dates)) # Day of the month
+
+# ----------------------------------------------------
+# 4] MANIPULATE DATA VALUES IN R (Formatting)
+# ----------------------------------------------------
+my_date <- as.Date("2022-05-27")
+print(my_date)
+print(class(my_date))
+print(format(my_date, "%y-%h-%d"))  # 22-May-27 (Year with 2 digits)
+print(format(my_date, "%d-%m-%y"))  # 27-05-22
+print(format(my_date, "%d-%m-%Y"))  # 27-05-2022 (Year with 4 digits)
+print(format(my_date, "%Y-%h-%d"))  # 2022-May-27
+# Note: The original example for "%Y-%m-%h-%d-%H-%M-%S" is complex, often you'd use a datetime object (POSIXct) for time components.
+# Here is an example converting the Date to Datetime for a more complete format:
+my_datetime <- as.POSIXct(my_date)
+print(format(my_datetime, "%Y-%m-%d %H:%M:%S"))
+
+# ----------------------------------------------------
+# 5] USING UPDATE() TO UPDATE DATE VALUES IN R
+# ----------------------------------------------------
+date_to_update <- ymd("2025-08-22")
+# These update calls demonstrate changing different components:
+print(update(date_to_update, year=2004, month=10, mday=1))
+print(update(date_to_update, year=2004, month=9, mday=1))
+# This one also updates time components (minute and second):
+print(update(date_to_update, year=2004, minut=10, seconds=20))
